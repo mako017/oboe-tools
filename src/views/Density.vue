@@ -16,6 +16,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<button type="button">Export</button>
 	</div>
 </template>
 
@@ -24,7 +25,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class extends Vue {
-	public densities = [
+	densities = [
 		{
 			base: 0,
 			weight: 0,
@@ -47,23 +48,29 @@ export default class extends Vue {
 			];
 		}
 	}
-
 	density(den: any): void {
 		const density = (den.weight - den.base) / (den.weight - den.base + (den.base - den.buoyancy));
 		den.density = Math.round(density * 100) / 100;
 		this.addRow();
 	}
-
-	// get density() {
-	// 	let density = (this.weight - this.base) / (this.weight - this.base + (this.base - this.buoyancy));
-	// 	density = Math.round(density * 100) / 100;
-	// 	return density;
-	// }
 }
 </script>
 
 <style lang="scss" scoped>
-table {
-	margin: auto;
+.density-root {
+	padding: 1rem;
+	* {
+		margin: 0.5rem 0;
+	}
+	table {
+		margin: 0.5rem auto;
+		max-width: 100%;
+		th {
+			width: 25%;
+		}
+	}
+	input {
+		width: 100%;
+	}
 }
 </style>

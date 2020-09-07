@@ -15,8 +15,14 @@
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+	width: 50vw;
+	margin: 0 auto;
 }
-
+@media screen and (max-width: 480px) {
+	#app {
+		width: 98vw;
+	}
+}
 #nav {
 	padding: 30px;
 
