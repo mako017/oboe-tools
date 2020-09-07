@@ -16,7 +16,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<button type="button">Export</button>
+		<button @click="exportData" type="button">Export</button>
+		<textarea v-model="csv"></textarea>
 	</div>
 </template>
 
@@ -33,8 +34,9 @@ export default class extends Vue {
 			density: 0,
 		},
 	];
+	csv = "";
 
-	addRow() {
+	addRow(): void {
 		const lastWeight = this.densities[this.densities.length - 1].weight;
 		if (lastWeight && lastWeight !== 0) {
 			this.densities = [
@@ -53,14 +55,29 @@ export default class extends Vue {
 		den.density = Math.round(density * 100) / 100;
 		this.addRow();
 	}
+	exportData(): void {
+		this.csv = this.toCSV(this.densities);
+	}
+	toCSV(json: Array<object>): string {
+		const table = json;
+		const header = Object.keys(table[0]);
+		const csv = table.map((row: any) => header.map(fieldName => row[fieldName]).join("\t"));
+		csv.unshift(header.join("\t"));
+		return csv.join("\r\n");
+	}
 }
 </script>
 
 <style lang="scss" scoped>
 .density-root {
 	padding: 1rem;
+	display: flex;
+	flex-direction: column;
 	* {
 		margin: 0.5rem 0;
+	}
+	button {
+		align-self: center;
 	}
 	table {
 		margin: 0.5rem auto;
@@ -71,6 +88,11 @@ export default class extends Vue {
 	}
 	input {
 		width: 100%;
+	}
+	textarea {
+		align-self: stretch;
+		overflow-y: auto;
+		min-height: 5rem;
 	}
 }
 </style>
